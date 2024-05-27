@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI_Sample.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            
+            <Button
+                x:Name="SetupBtn"
+                Text="Setup" 
+                SemanticProperties.Hint="Setup button"
+                HorizontalOptions="Fill" 
+                Clicked="OnSetupClicked" />
+
+            <Button
+                x:Name="StartPeriod1Btn"
+                Text="Start period 1" 
+                SemanticProperties.Hint="Start period 1 button"
+                HorizontalOptions="Fill"
+                Clicked="OnStartPeriod1Clicked" />
+
+            <Button
+                x:Name="StartPeriod2Btn"
+                Text="Start period 2" 
+                SemanticProperties.Hint="Start period 2 button"
+                HorizontalOptions="Fill"
+                Clicked="OnStartPeriod2Clicked" />
+
+            <Button
+                x:Name="StartPeriod3Btn"
+                Text="Start period 3" 
+                SemanticProperties.Hint="Start period 3 button"
+                HorizontalOptions="Fill"
+                Clicked="OnStartPeriod3Clicked" />
+
+            <Button
+                x:Name="StopPeriodBtn"
+                Text="Stop period" 
+                SemanticProperties.Hint="Stop period button"
+                HorizontalOptions="Fill"
+                Clicked="OnStopPeriodClicked" />
+
+            <Button
+                x:Name="TeardownBtn"
+                Text="Teardown" 
+                SemanticProperties.Hint="Teardown button"
+                HorizontalOptions="Fill"
+                Clicked="OnTeardownClicked" />
+
+            <Button
+                x:Name="GetSettingsBtn"
+                Text="Get Settings" 
+                SemanticProperties.Hint="Get Settings button"
+                HorizontalOptions="Fill"
+                Clicked="OnGetSettingsClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
