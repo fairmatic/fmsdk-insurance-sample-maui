@@ -2,53 +2,10 @@ namespace MAUI_Sample;
 
 #if __IOS__
 
-using FMSDKMAUIiOS;
-
-/// <summary>
-/// Fairmatic delegate implementation.
-/// </summary>
-public class FairmaticDelegateImpl: FairmaticDelegate {
-    public override void ProcessAccidentDetected(FairmaticAccidentInfo accidentInfo)
-    {
-        Console.WriteLine("ProcessAccidentDetected");
-    }
-
-    public override void ProcessAnalysisOfDrive(FairmaticAnalyzedDriveInfo analyzedDriveInfo)
-    {
-        Console.WriteLine("ProcessAnalysisOfDrive");
-    }
-
-    public override void ProcessEndOfDrive(FairmaticEstimatedDriveInfo estimatedDriveInfo)
-    {
-        Console.WriteLine($"ProcessEndOfDrive {estimatedDriveInfo.DriveId}");
-    }
-
-    public override void ProcessPotentialAccidentDetected(FairmaticAccidentInfo accidentInfo)
-    {
-        Console.WriteLine("ProcessPotentialAccidentDetected");
-    }
-
-    public override void ProcessResumeOfDrive(FairmaticDriveResumeInfo resumeInfo)
-    {
-        Console.WriteLine("ProcessResumeOfDrive");
-    }
-
-    public override void ProcessStartOfDrive(FairmaticDriveStartInfo startInfo)
-    {
-        Console.WriteLine($"ProcessStartOfDrive {startInfo.DriveId}");
-    }
-
-    public override void SettingsChanged(FairmaticSettings settings)
-    {
-        Console.WriteLine("SettingsChanged");
-    }
-}
-
+using Com.Fairmatic.Sdk.iOS;
 
 public class iOSSdk() : ISdkImplementation
 {
-    FairmaticDelegate fairmaticDelegate = new FairmaticDelegateImpl();
-
     public void OnSetupClicked()
     {
         Console.WriteLine("Setup clicked");
@@ -56,7 +13,8 @@ public class iOSSdk() : ISdkImplementation
         var sdkKey = "YOUR_SDK_KEY_HERE";
 
         FairmaticDriverAttributes fairmaticDriverAttributes = new FairmaticDriverAttributes(
-            name: "Driver Name",
+            firstName: "FirstName",
+            lastName: "LastName",
             email: "email_id@something.com",
             phoneNumber: "1234567890"
         );
@@ -67,7 +25,7 @@ public class iOSSdk() : ISdkImplementation
             driverAttributes: fairmaticDriverAttributes
         );
 
-        Fairmatic.SetupWithConfiguration(fairmaticConfiguration, fairmaticDelegate, (success, error) =>
+        Fairmatic.SetupWithConfiguration(fairmaticConfiguration, (success, error) =>
         {
             if (success)
             {
@@ -82,7 +40,7 @@ public class iOSSdk() : ISdkImplementation
 
     public void OnStartPeriod1Clicked()
     {
-        Fairmatic.StartDriveWithPeriod1((success, error) =>
+        Fairmatic.StartDriveWithPeriod2("trackingId1-MAUI", (success, error) =>
         {
             if (success)
             {
@@ -97,7 +55,7 @@ public class iOSSdk() : ISdkImplementation
 
     public void OnStartPeriod2Clicked()
     {
-        Fairmatic.StartDriveWithPeriod2("trackingId-MAUI", (success, error) =>
+        Fairmatic.StartDriveWithPeriod2("trackingId2-MAUI", (success, error) =>
         {
             if (success)
             {
@@ -112,7 +70,7 @@ public class iOSSdk() : ISdkImplementation
 
     public void OnStartPeriod3Clicked()
     {
-        Fairmatic.StartDriveWithPeriod3("trackingId-MAUI", (success, error) =>
+        Fairmatic.StartDriveWithPeriod3("trackingId3-MAUI", (success, error) =>
         {
             if (success)
             {
@@ -149,27 +107,23 @@ public class iOSSdk() : ISdkImplementation
     }
 
     public void OnGetSettingsClicked() {
-        FairmaticSettings? fairmaticSettings = Fairmatic.Settings;
-
-        if (fairmaticSettings != null)
+        Fairmatic.GetSettingsWithCompletionHandler((settings) =>
         {
-            FairmaticSettingsError[] fairmaticSettingsError = fairmaticSettings.Errors;
+            Console.WriteLine("Get Settings Success");
 
-            Console.WriteLine($"Settings: {fairmaticSettings}");
+            // Print settings errors from the object
+            FairmaticSettingsError[] fairmaticSettingsError = settings.Errors;
 
-            // If fairmaticSettingsError has elements, For each element in fairmaticSettingsError, print the error message
-            if (fairmaticSettingsError.Length > 0)
+            if (fairmaticSettingsError.Length == 0)
             {
-                foreach (var sdkError in fairmaticSettingsError)
-                {
-                    Console.WriteLine($"Error: {sdkError.ErrorType}");
-                }
-            } else {
-                Console.WriteLine("No errors found in settings");
+                Console.WriteLine("No errors found in settings.");
+                return;
             }
-        } else {
-            Console.WriteLine("Settings not available, please set up Fairmatic SDK first.");
-        }
+
+            //Concatenate the errors into a single string
+            string errorMessage = string.Join(", ", fairmaticSettingsError.Select(e => e.ErrorType));
+            Console.WriteLine($"Errors found in settings: {errorMessage}");
+        });
     }
 }
 #endif
