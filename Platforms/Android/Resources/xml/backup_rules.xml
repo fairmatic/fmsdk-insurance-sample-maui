@@ -1,0 +1,6 @@
+<data-extraction-rules>
+    <exclude domain="sharedpref" path="DriveKitPreferences.xml" />
+    <exclude domain="sharedpref" path="DriveKitEncryptedPreferences.xml" />
+    <exclude domain="sharedpref" path="DriveKitBackupPrefs.xml" />
+    <include domain="sharedpref" path="DriveKitBackup.xml" />
+</data-extraction-rules>

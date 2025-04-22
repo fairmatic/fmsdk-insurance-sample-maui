@@ -20,20 +20,24 @@ public class AndroidSdk() : ISdkImplementation {
 		var sdkKey = "YOUR_SDK_KEY_HERE";
 
 		// Add DriverAttributes object
-		FairmaticDriverAttributes driverAttributes = new FairmaticDriverAttributes("Driver Name", "email_id@something.com", "phone_number");
+		FairmaticDriverAttributes driverAttributes = new FairmaticDriverAttributes("John", "Doe", "john.doe@example.com", "123456789");
 		
 		// Add FairmaticConfiguration object
 		FairmaticConfiguration fairmaticConfiguration = new FairmaticConfiguration(sdkKey, "driver_id", driverAttributes);
 		
+        // ADd FairmaticTripNotification object
+        FairmaticTripNotification fairmaticTripNotification = new FairmaticTripNotification(
+            "In Drive Notification", "You are now in drive mode.", Resource.Drawable.fm_car
+        );
+		
 		// Setup Fairmatic
-		Fairmatic.Instance.Setup(Android.App.Application.Context, fairmaticConfiguration, Java.Lang.Class.FromType(typeof(FairmaticBroadcastReceiverImpl)),
-			Java.Lang.Class.FromType(typeof(FairmaticNotificationProviderImpl)), fairmaticOperationCallback);
+		Fairmatic.Instance.Setup(Android.App.Application.Context, fairmaticConfiguration, fairmaticTripNotification, fairmaticOperationCallback);
 	}
 
 	public void OnStartPeriod1Clicked()
 	{
 		Console.WriteLine("Fairmatic SDK : " + "Start Drive With Period 1 called");
-		Fairmatic.Instance.StartDriveWithPeriod1(Android.App.Application.Context, fairmaticOperationCallback);
+		Fairmatic.Instance.StartDriveWithPeriod1(Android.App.Application.Context, "MAUI", fairmaticOperationCallback);
 	}
 
 	public void OnStartPeriod2Clicked()
