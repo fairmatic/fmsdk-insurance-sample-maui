@@ -2,4 +2,5 @@
 
 ## Documentation
 
-### A quick guide to using Fairmatic's MAUI plugin for iOS can be found [here](/ios-quick-start.md).
+### [Fairmatic.Android](https://www.nuget.org/packages/Fairmatic.Android) nuget package
+### [Fairmatic.iOS](https://www.nuget.org/packages/Fairmatic.iOS) nuget package
